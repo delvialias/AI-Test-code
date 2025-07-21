@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Receipt</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .receipt-container {
+            max-width: 400px;
+            margin: 50px auto;
+            background: #fff;
+            padding: 30px 40px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .receipt-details {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+        .receipt-actions button {
+            margin: 0 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="receipt-container">
+        <h1>Booking Receipt</h1>
+        <div class="receipt-details" id="receiptDetails"></div>
+        <div class="receipt-actions">
+            <button onclick="window.print()">Print</button>
+            <button id="downloadBtn">Download</button>
+            <button onclick="window.location.href='index.html'">Back to Booking</button>
+        </div>
+    </div>
+    <script>
+        // Load booking details from localStorage
+        const booking = JSON.parse(localStorage.getItem('bookingReceipt'));
+        if (booking) {
+            document.getElementById('receiptDetails').innerHTML = `
+                <p><strong>Name:</strong> ${booking.name}</p>
+                <p><strong>From:</strong> ${booking.from}</p>
+                <p><strong>To:</strong> ${booking.to}</p>
+                <p><strong>Date:</strong> ${booking.date}</p>
+                <p><strong>Number of Tickets:</strong> ${booking.tickets}</p>
+            `;
+        } else {
+            document.getElementById('receiptDetails').innerHTML = '<p>No booking found.</p>';
+        }
+
+        // Download receipt as text file
+        document.getElementById('downloadBtn').onclick = function() {
+            if (!booking) return;
+            const text = `Booking Receipt\n\nName: ${booking.name}\nFrom: ${booking.from}\nTo: ${booking.to}\nDate: ${booking.date}\nNumber of Tickets: ${booking.tickets}`;
+            const blob = new Blob([text], { type: 'text/plain' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'booking_receipt.txt';
+            link.click();
+        };
+    </script>
+</body>
+</html> 
