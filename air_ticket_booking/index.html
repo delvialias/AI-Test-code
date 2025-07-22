@@ -7,8 +7,16 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div class="flight-bg"></div>
+    <div class="agency-header-left">Joy's Holidays</div>
+    <div class="customer-login">
+        <span class="login-link" id="loginLink">Customer Login &#x25BC;</span>
+        <div class="login-dropdown">
+            <a href="user_login.html" class="dropdown-item">User Login</a>
+            <a href="register.html" class="dropdown-item">Register</a>
+        </div>
+    </div>
     <div class="container">
-        <div class="agency-name-form">Joy's Holidays</div>
         <h1>Air Ticket Booking</h1>
         <form id="bookingForm">
             <label for="name">Name:</label>
@@ -39,6 +47,23 @@
         const dd = String(today.getDate()).padStart(2, '0');
         const minDate = `${yyyy}-${mm}-${dd}`;
         document.getElementById('date').setAttribute('min', minDate);
+      });
+    </script>
+    <script>
+      // Toggle dropdown on click
+      document.addEventListener('DOMContentLoaded', function() {
+        const loginLink = document.getElementById('loginLink');
+        const customerLogin = document.querySelector('.customer-login');
+        loginLink.addEventListener('click', function(e) {
+          e.stopPropagation();
+          customerLogin.classList.toggle('open');
+        });
+        document.addEventListener('click', function() {
+          customerLogin.classList.remove('open');
+        });
+        customerLogin.querySelector('.login-dropdown').addEventListener('click', function(e) {
+          e.stopPropagation();
+        });
       });
     </script>
 </body>
