@@ -89,5 +89,21 @@
             <a href="#" class="forgot-link">Forgot password?</a>
         </form>
     </div>
+<script>
+document.querySelector('.login-form').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const email = document.getElementById('email').value;
+  const password = document.getElementById('password').value;
+  const users = JSON.parse(localStorage.getItem('users') || '[]');
+  const user = users.find(u => u.email === email && u.password === password);
+  if (user) {
+    alert('Login successful! Welcome, ' + user.firstName);
+    localStorage.setItem('loggedInUserEmail', user.email);
+    window.location.href = 'book_ticket.html'; // Redirect to air ticket booking page
+  } else {
+    alert('Invalid email or password!');
+  }
+});
+</script>
 </body>
 </html> 

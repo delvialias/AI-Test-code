@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Details</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .user-details-container {
+            max-width: 400px;
+            margin: 70px auto;
+            background: #fff;
+            padding: 32px 36px 24px 36px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .user-details-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #1e7e34;
+            margin-bottom: 18px;
+        }
+        .user-details-info {
+            margin-bottom: 24px;
+            color: #333;
+        }
+        .book-btn {
+            padding: 10px 24px;
+            background: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .book-btn:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="user-details-container">
+        <div class="user-details-title">Welcome, <span id="userName"></span>!</div>
+        <div class="user-details-info">
+            <div><strong>Email:</strong> <span id="userEmail"></span></div>
+            <div><strong>Mobile:</strong> <span id="userMobile"></span></div>
+        </div>
+        <a href="index.html"><button class="book-btn">Book Air Ticket</button></a>
+    </div>
+    <script>
+        // Get logged in user from localStorage (simulate session)
+        const loggedInEmail = localStorage.getItem('loggedInUserEmail');
+        const users = JSON.parse(localStorage.getItem('users') || '[]');
+        const user = users.find(u => u.email === loggedInEmail);
+        if (user) {
+            document.getElementById('userName').textContent = user.firstName + ' ' + user.lastName;
+            document.getElementById('userEmail').textContent = user.email;
+            document.getElementById('userMobile').textContent = `+${user.countryCode} ${user.mobile}`;
+        } else {
+            document.querySelector('.user-details-container').innerHTML = '<p>User not found. Please <a href="user_login.html">login</a> again.</p>';
+        }
+    </script>
+</body>
+</html> 

@@ -17,11 +17,8 @@
         </div>
     </div>
     <div class="container">
-        <h1>Air Ticket Booking</h1>
-        <form id="bookingForm">
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="name" required minlength="4" maxlength="16" pattern="[A-Za-z ]+" title="Name should contain only alphabets and spaces (A-Z, a-z, space)">
-
+        <h1>Search Available Flights</h1>
+        <form id="searchFlightsForm">
             <label for="from">From:</label>
             <input type="text" id="from" name="from" required>
 
@@ -31,11 +28,12 @@
             <label for="date">Date:</label>
             <input type="date" id="date" name="date" required>
 
-            <label for="tickets">Number of Tickets:</label>
-            <input type="number" id="tickets" name="tickets" min="1" required>
+            <label for="passengers">Number of Passengers:</label>
+            <input type="number" id="passengers" name="passengers" min="1" required>
 
-            <button type="submit">Book Ticket</button>
+            <button type="submit">Search Flights</button>
         </form>
+        <div id="flightResults"></div>
     </div>
     <script src="app.js"></script>
     <script>
@@ -66,5 +64,60 @@
         });
       });
     </script>
+    <script>
+// Initialize sample flights in localStorage if not present
+if (!localStorage.getItem('flights')) {
+  function futureDate(daysAhead) {
+    const d = new Date();
+    d.setDate(d.getDate() + daysAhead);
+    return d.toISOString().slice(0, 10);
+  }
+  const sampleFlights = [
+    { id: 1, from: 'Delhi', to: 'Mumbai', date: futureDate(1), airline: 'IndiGo', time: '09:00', price: 4500 },
+    { id: 2, from: 'Delhi', to: 'Bangalore', date: futureDate(2), airline: 'Air India', time: '12:30', price: 6000 },
+    { id: 3, from: 'Mumbai', to: 'Delhi', date: futureDate(1), airline: 'SpiceJet', time: '15:00', price: 4700 },
+    { id: 4, from: 'Delhi', to: 'Mumbai', date: futureDate(3), airline: 'Vistara', time: '18:45', price: 5200 },
+    { id: 5, from: 'Bangalore', to: 'Delhi', date: futureDate(2), airline: 'GoAir', time: '20:00', price: 5800 },
+    { id: 6, from: 'Delhi', to: 'Chennai', date: futureDate(1), airline: 'IndiGo', time: '07:30', price: 6200 },
+    { id: 7, from: 'Chennai', to: 'Delhi', date: futureDate(3), airline: 'Air India', time: '10:15', price: 6400 }
+  ];
+  localStorage.setItem('flights', JSON.stringify(sampleFlights));
+}
+</script>
+<script>
+document.getElementById('searchFlightsForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const from = document.getElementById('from').value.trim();
+  const to = document.getElementById('to').value.trim();
+  const date = document.getElementById('date').value;
+  const passengers = document.getElementById('passengers').value;
+  const resultsDiv = document.getElementById('flightResults');
+
+  // Get flights from localStorage
+  const flights = JSON.parse(localStorage.getItem('flights') || '[]');
+
+  // Filter flights by from, to, and date
+  const results = flights.filter(f =>
+    f.from.toLowerCase() === from.toLowerCase() &&
+    f.to.toLowerCase() === to.toLowerCase() &&
+    f.date === date
+  );
+
+  if (results.length === 0) {
+    resultsDiv.innerHTML = '<p style="margin-top:20px; color:#c00;">No flights found for the selected route and date.</p>';
+    return;
+  }
+
+  resultsDiv.innerHTML = '<h2 style="margin-top:24px;">Available Flights</h2>' +
+    results.map(f => `
+      <div style="border:1px solid #eee; border-radius:7px; margin:12px 0; padding:14px 18px; background:#f8fafd;">
+        <strong>${f.airline}</strong> | ${f.from} → ${f.to} <br>
+        Date: ${f.date} <br>
+        Time: ${f.time} &nbsp; | &nbsp; Price: ₹${f.price} <br>
+        <button style="margin-top:8px; padding:6px 18px; background:#007bff; color:#fff; border:none; border-radius:4px; cursor:pointer;">Book</button>
+      </div>
+    `).join('');
+});
+</script>
 </body>
 </html> 

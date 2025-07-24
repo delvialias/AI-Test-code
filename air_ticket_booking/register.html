@@ -51,6 +51,27 @@
         .register-form button:hover {
             background: #0056b3;
         }
+        .mobile-row {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        .mobile-row select,
+        .mobile-row input {
+            margin-bottom: 0;
+        }
+        .mobile-input {
+            width: 100%;
+            min-width: 0;
+            flex: 1 1 0;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            padding: 8px;
+            background: #fff;
+        }
     </style>
 </head>
 <body>
@@ -73,10 +94,59 @@
             <input type="password" id="confirmPassword" name="confirmPassword" required placeholder="Confirm your password">
 
             <label for="mobile">Mobile Number</label>
-            <input type="tel" id="mobile" name="mobile" required placeholder="Enter your mobile number">
+            <div class="mobile-row">
+                <select id="countryCode" name="countryCode" required class="mobile-input">
+                    <option value="91" selected>🇮🇳 +91 (India)</option>
+                    <option value="1">🇺🇸 +1 (USA)</option>
+                    <option value="44">🇬🇧 +44 (UK)</option>
+                    <option value="61">🇦🇺 +61 (Australia)</option>
+                    <option value="81">🇯🇵 +81 (Japan)</option>
+                    <option value="49">🇩🇪 +49 (Germany)</option>
+                    <option value="33">🇫🇷 +33 (France)</option>
+                    <option value="86">🇨🇳 +86 (China)</option>
+                    <option value="971">🇦🇪 +971 (UAE)</option>
+                    <option value="7">🇷🇺 +7 (Russia)</option>
+                    <option value="39">🇮🇹 +39 (Italy)</option>
+                    <option value="34">🇪🇸 +34 (Spain)</option>
+                    <option value="55">🇧🇷 +55 (Brazil)</option>
+                    <option value="27">🇿🇦 +27 (South Africa)</option>
+                    <option value="82">🇰🇷 +82 (South Korea)</option>
+                    <option value="65">🇸🇬 +65 (Singapore)</option>
+                    <option value="880">🇧🇩 +880 (Bangladesh)</option>
+                    <option value="92">🇵🇰 +92 (Pakistan)</option>
+                    <option value="966">🇸🇦 +966 (Saudi Arabia)</option>
+                    <option value="20">🇪🇬 +20 (Egypt)</option>
+                    <!-- Add more countries as needed -->
+                </select>
+                <input type="tel" id="mobile" name="mobile" required placeholder="Enter mobile number" class="mobile-input">
+            </div>
 
             <button type="submit">Register</button>
         </form>
     </div>
+<script>
+document.querySelector('.register-form').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const user = {
+    firstName: document.getElementById('firstName').value,
+    lastName: document.getElementById('lastName').value,
+    email: document.getElementById('email').value,
+    password: document.getElementById('password').value,
+    countryCode: document.getElementById('countryCode').value,
+    mobile: document.getElementById('mobile').value
+  };
+  // Get existing users or empty array
+  const users = JSON.parse(localStorage.getItem('users') || '[]');
+  // Check if email already exists
+  if (users.some(u => u.email === user.email)) {
+    alert('Email already registered!');
+    return;
+  }
+  users.push(user);
+  localStorage.setItem('users', JSON.stringify(users));
+  alert('Registration successful!');
+  window.location.href = 'user_login.html'; // Redirect to login
+});
+</script>
 </body>
 </html> 
