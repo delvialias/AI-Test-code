@@ -90,18 +90,23 @@
         </form>
     </div>
 <script>
-document.querySelector('.login-form').addEventListener('submit', function(e) {
+document.querySelector('.login-form').addEventListener('submit', async function(e) {
   e.preventDefault();
-  const email = document.getElementById('email').value;
-  const password = document.getElementById('password').value;
-  const users = JSON.parse(localStorage.getItem('users') || '[]');
-  const user = users.find(u => u.email === email && u.password === password);
-  if (user) {
-    alert('Login successful! Welcome, ' + user.firstName);
-    localStorage.setItem('loggedInUserEmail', user.email);
-    window.location.href = 'book_ticket.html'; // Redirect to air ticket booking page
+  const data = {
+    email: document.getElementById('email').value,
+    password: document.getElementById('password').value
+  };
+  const res = await fetch('http://localhost:3001/api/login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
+  });
+  const result = await res.json();
+  if (result.success) {
+    localStorage.setItem('loggedInUserEmail', data.email);
+    window.location.href = 'book_ticket.html';
   } else {
-    alert('Invalid email or password!');
+    alert(result.error || 'Login failed!');
   }
 });
 </script>

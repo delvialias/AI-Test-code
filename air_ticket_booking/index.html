@@ -20,10 +20,48 @@
         <h1>Search Available Flights</h1>
         <form id="searchFlightsForm">
             <label for="from">From:</label>
-            <input type="text" id="from" name="from" required>
+            <input type="text" id="from" name="from" list="fromPlaces" required placeholder="Enter departure city">
+            <datalist id="fromPlaces">
+                <option value="Delhi">
+                <option value="Mumbai">
+                <option value="Bangalore">
+                <option value="Chennai">
+                <option value="Kolkata">
+                <option value="Hyderabad">
+                <option value="Pune">
+                <option value="Ahmedabad">
+                <option value="Jaipur">
+                <option value="Lucknow">
+                <option value="Patna">
+                <option value="Bhopal">
+                <option value="Indore">
+                <option value="Nagpur">
+                <option value="Varanasi">
+                <option value="Surat">
+                <option value="Kanpur">
+            </datalist>
 
             <label for="to">To:</label>
-            <input type="text" id="to" name="to" required>
+            <input type="text" id="to" name="to" list="toPlaces" required placeholder="Enter destination city">
+            <datalist id="toPlaces">
+                <option value="Delhi">
+                <option value="Mumbai">
+                <option value="Bangalore">
+                <option value="Chennai">
+                <option value="Kolkata">
+                <option value="Hyderabad">
+                <option value="Pune">
+                <option value="Ahmedabad">
+                <option value="Jaipur">
+                <option value="Lucknow">
+                <option value="Patna">
+                <option value="Bhopal">
+                <option value="Indore">
+                <option value="Nagpur">
+                <option value="Varanasi">
+                <option value="Surat">
+                <option value="Kanpur">
+            </datalist>
 
             <label for="date">Date:</label>
             <input type="date" id="date" name="date" required>
