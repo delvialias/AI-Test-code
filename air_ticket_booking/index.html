@@ -20,54 +20,51 @@
         <h1>Search Available Flights</h1>
         <form id="searchFlightsForm">
             <label for="from">From:</label>
-            <input type="text" id="from" name="from" list="fromPlaces" required placeholder="Enter departure city">
-            <datalist id="fromPlaces">
-                <option value="Delhi">
-                <option value="Mumbai">
-                <option value="Bangalore">
-                <option value="Chennai">
-                <option value="Kolkata">
-                <option value="Hyderabad">
-                <option value="Pune">
-                <option value="Ahmedabad">
-                <option value="Jaipur">
-                <option value="Lucknow">
-                <option value="Patna">
-                <option value="Bhopal">
-                <option value="Indore">
-                <option value="Nagpur">
-                <option value="Varanasi">
-                <option value="Surat">
-                <option value="Kanpur">
-            </datalist>
+            <select id="from" name="from" required>
+                <option value="" disabled selected>Select departure city</option>
+                <option value="Delhi">Delhi</option>
+                <option value="Mumbai">Mumbai</option>
+                <option value="Bangalore">Bangalore</option>
+                <option value="Chennai">Chennai</option>
+                <option value="Kolkata">Kolkata</option>
+                <option value="Hyderabad">Hyderabad</option>
+                <option value="Pune">Pune</option>
+                <option value="Ahmedabad">Ahmedabad</option>
+                <option value="Jaipur">Jaipur</option>
+                <option value="Lucknow">Lucknow</option>
+                <option value="Patna">Patna</option>
+                <option value="Bhopal">Bhopal</option>
+                <option value="Indore">Indore</option>
+                <option value="Nagpur">Nagpur</option>
+                <option value="Varanasi">Varanasi</option>
+                <option value="Surat">Surat</option>
+                <option value="Kanpur">Kanpur</option>
+            </select>
 
             <label for="to">To:</label>
-            <input type="text" id="to" name="to" list="toPlaces" required placeholder="Enter destination city">
-            <datalist id="toPlaces">
-                <option value="Delhi">
-                <option value="Mumbai">
-                <option value="Bangalore">
-                <option value="Chennai">
-                <option value="Kolkata">
-                <option value="Hyderabad">
-                <option value="Pune">
-                <option value="Ahmedabad">
-                <option value="Jaipur">
-                <option value="Lucknow">
-                <option value="Patna">
-                <option value="Bhopal">
-                <option value="Indore">
-                <option value="Nagpur">
-                <option value="Varanasi">
-                <option value="Surat">
-                <option value="Kanpur">
-            </datalist>
+            <select id="to" name="to" required>
+                <option value="" disabled selected>Select destination city</option>
+                <option value="Delhi">Delhi</option>
+                <option value="Mumbai">Mumbai</option>
+                <option value="Bangalore">Bangalore</option>
+                <option value="Chennai">Chennai</option>
+                <option value="Kolkata">Kolkata</option>
+                <option value="Hyderabad">Hyderabad</option>
+                <option value="Pune">Pune</option>
+                <option value="Ahmedabad">Ahmedabad</option>
+                <option value="Jaipur">Jaipur</option>
+                <option value="Lucknow">Lucknow</option>
+                <option value="Patna">Patna</option>
+                <option value="Bhopal">Bhopal</option>
+                <option value="Indore">Indore</option>
+                <option value="Nagpur">Nagpur</option>
+                <option value="Varanasi">Varanasi</option>
+                <option value="Surat">Surat</option>
+                <option value="Kanpur">Kanpur</option>
+            </select>
 
             <label for="date">Date:</label>
             <input type="date" id="date" name="date" required>
-
-            <label for="passengers">Number of Passengers:</label>
-            <input type="number" id="passengers" name="passengers" min="1" required>
 
             <button type="submit">Search Flights</button>
         </form>
@@ -125,36 +122,11 @@ if (!localStorage.getItem('flights')) {
 <script>
 document.getElementById('searchFlightsForm').addEventListener('submit', function(e) {
   e.preventDefault();
-  const from = document.getElementById('from').value.trim();
-  const to = document.getElementById('to').value.trim();
+  const from = document.getElementById('from').value;
+  const to = document.getElementById('to').value;
   const date = document.getElementById('date').value;
-  const passengers = document.getElementById('passengers').value;
-  const resultsDiv = document.getElementById('flightResults');
-
-  // Get flights from localStorage
-  const flights = JSON.parse(localStorage.getItem('flights') || '[]');
-
-  // Filter flights by from, to, and date
-  const results = flights.filter(f =>
-    f.from.toLowerCase() === from.toLowerCase() &&
-    f.to.toLowerCase() === to.toLowerCase() &&
-    f.date === date
-  );
-
-  if (results.length === 0) {
-    resultsDiv.innerHTML = '<p style="margin-top:20px; color:#c00;">No flights found for the selected route and date.</p>';
-    return;
-  }
-
-  resultsDiv.innerHTML = '<h2 style="margin-top:24px;">Available Flights</h2>' +
-    results.map(f => `
-      <div style="border:1px solid #eee; border-radius:7px; margin:12px 0; padding:14px 18px; background:#f8fafd;">
-        <strong>${f.airline}</strong> | ${f.from} → ${f.to} <br>
-        Date: ${f.date} <br>
-        Time: ${f.time} &nbsp; | &nbsp; Price: ₹${f.price} <br>
-        <button style="margin-top:8px; padding:6px 18px; background:#007bff; color:#fff; border:none; border-radius:4px; cursor:pointer;">Book</button>
-      </div>
-    `).join('');
+  // Redirect to available_flights.html with query params
+  window.location.href = `available_flights.html?from=${encodeURIComponent(from)}&to=${encodeURIComponent(to)}&date=${encodeURIComponent(date)}`;
 });
 </script>
 </body>
